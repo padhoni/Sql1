@@ -1,0 +1,15 @@
+CREATE FUNCTION getNthHighestSalary(@N INT) 
+RETURNS INT 
+AS
+BEGIN
+    RETURN (
+        SELECT distinct COALESCE(salary, NULL)
+        FROM (
+            SELECT 
+                salary, 
+                DENSE_RANK() OVER (ORDER BY salary DESC) AS rnk
+            FROM Employee
+        ) cte
+        WHERE rnk = @N
+    );
+END;
