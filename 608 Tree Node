@@ -1,0 +1,22 @@
+
+select id, 'Root' as type from Tree where p_id is null
+union all
+
+--select id, 'Inner' as type from Tree where id in (select distinct p_id as id from Tree where p_id not in(select id --as p_id from Tree where p_id is null))
+SELECT id, 'Inner' AS type
+FROM Tree
+WHERE id IN (
+    SELECT DISTINCT p_id
+    FROM Tree
+)
+AND p_id IS NOT NULL
+union all 
+
+SELECT id, 'Leaf' AS type
+FROM Tree
+WHERE id NOT IN (
+    SELECT DISTINCT p_id as id
+    FROM Tree where p_id is not null
+)
+AND p_id IS NOT NULL;
+
