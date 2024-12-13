@@ -20,3 +20,19 @@ WHERE id NOT IN (
 )
 AND p_id IS NOT NULL;
 
+-- select id, 
+--     case
+--         when p_id is null then 'Root'
+--         when id in(select distinct p_id as id from Tree where p_id is not null)
+--         and Tree.p_id is not null then 'Inner'
+--         else
+--             'Leaf'
+--     end as 'type'
+-- from Tree
+
+-- SELECT id, 
+--     IIF(p_id IS NULL, 'Root', 
+--         IIF(id IN (SELECT DISTINCT p_id FROM Tree WHERE p_id IS NOT NULL) 
+--             AND p_id IS NOT NULL, 'Inner', 'Leaf')) AS type
+-- FROM Tree;
+
